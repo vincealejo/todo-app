@@ -1,3 +1,3 @@
-import Storage from "./modules/local-storage";
+import TODO_APP from "./modules/todo-app.js";
 
-Storage.init();
+TODO_APP.init();

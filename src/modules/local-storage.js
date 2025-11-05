@@ -1,3 +1,5 @@
+import Project from "../class/Project";
+
 export default class Storage {
     static #APP_NAME = "todo-app";
     
@@ -14,7 +16,10 @@ export default class Storage {
         return JSON.parse(localStorage.getItem(this.#APP_NAME));
     }
 
-    static updateStorage(value) {
-        localStorage.setItem(this.#APP_NAME, JSON.stringify(value));
+    static updateStorage(property, value) {
+        const currentStorage = this.getStorage();
+        currentStorage[property].push(value);
+
+        localStorage.setItem(this.#APP_NAME, JSON.stringify(currentStorage));
     }
 }

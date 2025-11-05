@@ -26,6 +26,18 @@ export default class Storage {
         this.#updateStorage(currentStorage);
     }
 
+    static editItem(property, id, value) {
+        const currentStorage = this.getStorage();
+        currentStorage[property] = currentStorage[property].map((item => {
+            if(item.id === id) {
+                item = {...item, ...value};
+            }
+            return item;
+        }));
+
+        this.#updateStorage(currentStorage);
+    }
+
     static setActiveProject(id) {
         const currentStorage = this.getStorage();
         currentStorage.activeProject = currentStorage.projects.filter(proj => proj.id === id)[0];

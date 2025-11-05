@@ -45,9 +45,19 @@ export default class TODO_APP {
 
     static deleteProject(id) {
         if(id === "0") return;
-
+        
         Storage.removeFromStorage("projects", id);
         this.setActiveProject("0")
+    }
+    
+    static editTask(id, value) {
+        Storage.editItem("tasks", id, value);
+    }
+    
+    static editProject(id, value) {
+        if(id === "0") return;
+
+        Storage.editItem("projects", id, value);
     }
     
     static getTasks() {

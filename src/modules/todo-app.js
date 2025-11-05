@@ -4,6 +4,8 @@ import generateId from "./generate-id.js";
 import Storage from "./local-storage.js";
 
 export default class TODO_APP {
+    static #activeProject = null;
+
     static init() {
         Storage.init()
 
@@ -11,9 +13,10 @@ export default class TODO_APP {
         this.createProject("all tasks");
     }
 
-    static createTask({title, description, due, priority, projectId}) {
+    static createTask({title, description, due, priority}) {
         const id = generateId();
-        const task = new Task({title, description,due, priority, id, projectId});
+        const activeProjectId = this.getActiveProject().id
+        const task = new Task({title, description,due, priority, id, projectId: activeProjectId});
         Storage.updateStorage("tasks", task);
     }
     
@@ -25,6 +28,9 @@ export default class TODO_APP {
         const id = generateId();
         const project = new Project(name.toLowerCase(), id);
         Storage.updateStorage("projects", project);
+        
+        // set the newly created project as active
+        this.setActiveProject(project.id);
     }
     
     static getTasks() {
@@ -33,5 +39,14 @@ export default class TODO_APP {
     
     static getProjects() {
         return Storage.getStorage().projects;
+    }
+
+    static setActiveProject(id) {
+        const project = Storage.getStorage().projects.filter((p) => p.id === id)[0];
+        this.#activeProject = project;
+    }
+
+    static getActiveProject() {
+        return this.#activeProject;
     }
 }

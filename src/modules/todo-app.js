@@ -13,7 +13,7 @@ export default class TODO_APP {
 
     static createTask({title, description, due, priority}) {
         const id = generateId();
-        const activeProjectId = this.getActiveProject().id
+        const activeProjectId = this.getActiveProjectId();
         const task = new Task({title, description,due, priority, id, projectId: activeProjectId});
 
         Storage.addToStorage("tasks", task);
@@ -35,7 +35,7 @@ export default class TODO_APP {
 
         Storage.addToStorage("projects", project);
         
-        // set the newly created project as active
+        // set the created project as active
         this.setActiveProject(project.id);
     }
 
@@ -44,10 +44,20 @@ export default class TODO_APP {
     }
 
     static deleteProject(id) {
+        // prevents deleting the default project
         if(id === "0") return;
         
         Storage.removeFromStorage("projects", id);
-        this.setActiveProject("0")
+
+        // deletes all of the task that has the project's id
+        this.#deleteTasksWithProjectId(id);
+        
+        /*
+            reset the active project to default if the project to be deleted is the current active project
+        */
+        if(this.getActiveProjectId() === id) {
+            this.setActiveProject("0")
+        }
     }
     
     static editTask(id, value) {
@@ -69,10 +79,19 @@ export default class TODO_APP {
     }
 
     static setActiveProject(id) {
-        Storage.setActiveProject(id);
+        Storage.addToStorage("activeProject", id);
     }
 
-    static getActiveProject() {
-        return Storage.getActiveProject();
+    static getActiveProjectId() {
+        return Storage.getStorage().activeProject;
+    }
+    
+    static #deleteTasksWithProjectId(id) {
+        const currentTasks = this.getTasks();
+        let newTasks = currentTasks.filter((task) => {
+            return task.projectId !== id;
+        });
+        
+        Storage.replaceStorage("tasks", newTasks);
     }
 }

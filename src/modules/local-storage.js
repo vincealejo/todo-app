@@ -14,7 +14,11 @@ export default class Storage {
 
     static addToStorage(property, value) {
         const currentStorage = this.getStorage();
-        currentStorage[property].push(value);
+        if(property === "activeProject") {
+            currentStorage[property] = value;
+        } else {
+            currentStorage[property].push(value);
+        }
 
         this.#updateStorage(currentStorage);
     }
@@ -38,16 +42,13 @@ export default class Storage {
         this.#updateStorage(currentStorage);
     }
 
-    static setActiveProject(id) {
+    static replaceStorage(property, value) {
         const currentStorage = this.getStorage();
-        currentStorage.activeProject = currentStorage.projects.filter(proj => proj.id === id)[0];
+        currentStorage[property] = value;
 
         this.#updateStorage(currentStorage);
     }
 
-    static getActiveProject() {
-        return this.getStorage().activeProject;
-    }
 
     static #updateStorage(value) {
          localStorage.setItem(this.#APP_NAME, JSON.stringify(value));

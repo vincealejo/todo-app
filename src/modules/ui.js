@@ -1,14 +1,68 @@
 export default class UI {
-    static taskContainer = document.querySelector(".task-container");
+    static #taskContainer = document.querySelector(".task-container");
+    static #projectContainer = document.querySelector(".project-container");
+    static #getTasksFunction = null;
+    static #getProjectsFunction = null;
+    static #deleteTaskFunction = null;
+    static #editTaskFunction = null;
+    static #deleteProjectFunction = null;
+    static #editProjectFunction = null;
+
+    static setDeleteTaskFunction(fn) {
+        this.#deleteTaskFunction = fn;
+    }
+
+    static setEditTaskFunction(fn) {
+        this.#editTaskFunction = fn;
+    }
+
+    static setDeleteProjectFunction(fn) {
+        this.#deleteProjectFunction = fn;
+    }
+
+    static setEditProjectFunction(fn) {
+        this.#editProjectFunction = fn;
+    }
+
+    static setGetTasksFunction(fn) {
+        this.#getTasksFunction = fn;
+    }
+
+    static setGetProjectsFunction(fn) {
+        this.#getProjectsFunction = fn;
+    }
 
     static displayTasks(tasks) {
+        this.#taskContainer.innerHTML = "";
         tasks.forEach((t) => {
-            const taskEl = this.#createTask(t);
-            this.taskContainer.append(taskEl);
+            const taskEl = this.#createTaskElement(t);
+            this.#taskContainer.append(taskEl);
         })
     }
 
-    static #createTask(task) {
+    static displayProjects(projects) {
+        this.#projectContainer.innerHTML = "";
+        projects.forEach((p) => {
+            const projectEl = this.#createProjectElement(p);
+            this.#projectContainer.append(projectEl);
+        })
+    }
+
+    static #createProjectElement(project) {
+        const container = document.createElement("li");
+        container.className = "project";
+
+        const button = document.createElement("button");
+        button.className = "project-name-button";
+        button.innerText = project.name;
+        button.dataset.id = project.id;
+
+        container.append(button);
+
+        return container;
+    }
+
+    static #createTaskElement(task) {
         const container = document.createElement("arcticle");
         container.className = "task";
 
@@ -33,12 +87,18 @@ export default class UI {
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-button";
         deleteButton.innerText = "X";
+        deleteButton.name = "delete";
 
         const editButton = document.createElement("button");
         editButton.className = "edit-button";
         editButton.innerText = "E";
+        editButton.name = "edit";
 
         const buttonCont = document.createElement("div");
+
+        // set the task id into the buttons container
+        buttonCont.dataset.id = task.id;
+
         const innerHeader1 = document.createElement("div");
         const innerHeader2 = document.createElement("div");
         
@@ -57,27 +117,18 @@ export default class UI {
         header.append(innerHeader1, innerHeader2);
         descriptionCont.append(descriptionText);
 
+
+        buttonCont.addEventListener("click", (e) => {
+            if(e.target.name === "delete") {
+                console.log("ran");
+                this.#deleteTaskFunction(buttonCont.dataset.id);
+            } else if(e.target.name === "edit") {
+                this.#editTaskFunction(buttonCont.dataset.id);
+            }
+            this.displayTasks(this.#getTasksFunction());
+        })
+
         return container;
 
     }
 }
-
-
-// <article class="task">
-//         <header>
-//             <div>
-//                 <p class="project-name">Example Project Name</p>
-//                 <span class="due-date">12 / 11 / 06</span>
-//             </div>
-//             <div>
-//                 <p class="title">Task Title</p>
-//                 <div>
-//                     <button class="option-button">:</button>
-//                 </div>
-//             </div>
-//         </header>
-//         <button class="show-description-button">V</button>
-//         <section class="description">
-//             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi deserunt debitis ex minus neque mollitia numquam ducimus nam maxime eveniet.</p>
-//         </section>
-//     </article>

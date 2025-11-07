@@ -24,6 +24,7 @@ export default class Storage {
     }
     
     static removeFromStorage(property, id) {
+        console.log(property, id)
         const currentStorage = this.getStorage();
         currentStorage[property] = currentStorage[property].filter(item => item.id !== id);
         

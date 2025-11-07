@@ -6,23 +6,37 @@
     <title>Todo App</title>
 </head>
 <body>
-    <article class="task">
-        <header>
-            <div>
-                <p class="project-name">Example Project Name</p>
-                <span class="due-date">12 / 11 / 06</span>
-            </div>
-            <div>
-                <p class="title">Task Title</p>
-                <div>
-                    <button class="option-button">:</button>
-                </div>
-            </div>
-        </header>
-        <button class="show-description-button">V</button>
-        <section class="description">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi deserunt debitis ex minus neque mollitia numquam ducimus nam maxime eveniet.</p>
-        </section>
-    </article>
+    <header>
+        <h1 class="app-title">Todo App</h1>
+        <ul class="schedules">
+            <li><button>Today</button></li>
+            <li><button>Tommorow</button></li>
+            <li><button>Skipped</button></li>
+        </ul>
+        <ul class="projects">
+            <li>
+                <button>Project One</button>
+            </li>
+            <li>
+                <button>Project Tommorow</button>
+            </li>
+            <li>
+                <button>Project Three</button>
+            </li>
+            <li>
+                <button>Project Four</button>
+            </li>
+            <li>
+                <button>Project Five</button>
+            </li>
+        </ul>
+    </header>
+    <main>
+        <nav>
+            <button>Regular</button>
+            <button>Important</button>
+        </nav>
+        <section class="task-container"></section>
+    </main>
 </body>
 </html>

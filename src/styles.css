@@ -31,7 +31,7 @@ button {
     padding: 0.5em 1em;
 }
 
-header {
+.main-header {
     --child-padding: 0.5rem;
     flex-basis: 250px;
     display: flex;
@@ -84,49 +84,61 @@ main {
     background-color: var(--bg-prime);
     box-shadow: var(--g-box-shadow);
     padding: var(--g-padding);
+
+    .task-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: start;
+        width: 100%;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
 }
 
 .task {
     --child-padding: 0.5rem;
-    border: 1px solid;
+    /* border: 1px solid blue; */
     width: 300px;
-    margin: 2rem auto;
-    position: relative;
-
+    border-radius: var(--g-border-radius);
+    box-shadow: var(--g-box-shadow);
+    
     header {
-        display: flex;
-        flex-direction: column;
 
         div:first-child {
             display: flex;
             justify-content: space-between;
-            background-color: purple;
-            padding: var(--child-padding);
-            font-size: 12px;
-        }
-
-        div:last-child {
-            padding: var(--child-padding);
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-
-            .option-button {
-                padding: 0.5em;
+            margin-bottom: 1rem;
+            background-color: #333;
+            color: #fff;
+            padding: 0.25rem var(--child-padding);
+            border-top-left-radius: var(--g-border-radius);
+            border-top-right-radius: var(--g-border-radius);
+            
+            div {
+                display: flex;
+                gap: 0.5rem;
+                
+                button {
+                    padding: 0.5em;
+                }
             }
+        }
+        
+        div:last-child {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0.25rem var(--child-padding);
         }
 
     }
 
     .show-description-button {
-        padding: 0 0.5em;
-        position: absolute;
-        left: 50%;
-        bottom: -0.5rem;
-        transform: translateX(-50%);
+        width: 100%;
     }
 
-    .description {
+    .description-containter {
         display: none;
     }
 }

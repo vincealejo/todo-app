@@ -1,9 +1,11 @@
 export default class UI {
-    static app = document.querySelector('#app');
-    static taskContainer = document.querySelector("#task-container");
+    static taskContainer = document.querySelector(".task-container");
 
     static displayTasks(tasks) {
-        
+        tasks.forEach((t) => {
+            const taskEl = this.#createTask(t);
+            this.taskContainer.append(taskEl);
+        })
     }
 
     static #createTask(task) {
@@ -28,11 +30,15 @@ export default class UI {
         descriptionText.className = "description";
         descriptionText.innerText = task.description;
 
-        const optButton = document.createElement("button");
-        optButton.className = "option-button";
-        optButton.innerText = ":";
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete-button";
+        deleteButton.innerText = "X";
 
-        const optButtonCont = document.createElement("div");
+        const editButton = document.createElement("button");
+        editButton.className = "edit-button";
+        editButton.innerText = "E";
+
+        const buttonCont = document.createElement("div");
         const innerHeader1 = document.createElement("div");
         const innerHeader2 = document.createElement("div");
         
@@ -43,9 +49,9 @@ export default class UI {
         const descriptionCont = document.createElement("section");
         descriptionCont.className = "description-containter";
         
-        innerHeader1.append(due);
-        innerHeader2.append(title, optButtonCont);
-        optButtonCont.append(optButton);
+        innerHeader1.append(due, buttonCont);
+        innerHeader2.append(title);
+        buttonCont.append(editButton, deleteButton);
 
         container.append(header, showDescButton, descriptionCont);
         header.append(innerHeader1, innerHeader2);

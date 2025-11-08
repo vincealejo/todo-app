@@ -1,12 +1,61 @@
+import getTommorowDate from "./getTommorowDate";
+
 export default class UI {
     static #taskContainer = document.querySelector(".task-container");
     static #projectContainer = document.querySelector(".project-container");
+    static #createTaskFormButton = document.querySelector("#create-task-form-button");
+    static #createTaskButton = document.querySelector(".create-task-button");
     static #getTasksFunction = null;
     static #getProjectsFunction = null;
     static #deleteTaskFunction = null;
     static #editTaskFunction = null;
     static #deleteProjectFunction = null;
     static #editProjectFunction = null;
+    static #createTaskFunction = null;
+
+    static init() {
+        this.displayTasks(this.#getTasksFunction());
+        this.displayProjects(this.#getProjectsFunction());
+
+        //set tommorow's date on due input
+        const tommorowDate = getTommorowDate();
+        document.querySelector("#due-input").value = tommorowDate;
+
+        // opens the create task form modal
+        this.#createTaskFormButton.addEventListener("click" ,() => {
+            document.querySelector(".create-task-form").showModal();
+        })
+        
+        // creates task, close create task form modal, display tasks
+        this.#createTaskButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            const title = document.querySelector("#title-input").value;
+            const description = document.querySelector("#description-input").value;
+            const due = document.querySelector("#due-input").value;
+            const priority = document.querySelector("#priority-input").value;
+            
+            if(title === "") return;
+            this.#createTaskFunction({title, description, due, priority});
+
+            document.querySelector(".create-task-form").close();
+
+            // clears input values
+            document.querySelector("#title-input").value = ""; 
+            document.querySelector("#description-input").value = ""; 
+            document.querySelector("#due-input").value = "";
+            document.querySelector("#priority-input").value = "regular"; 
+            
+            this.displayTasks(this.#getTasksFunction());
+        });
+
+        // close create task form modal
+        document.querySelector(".close-task-form-button").addEventListener("click", (e) => {
+            e.preventDefault();
+            document.querySelector(".create-task-form").close();
+        })
+
+    }
+
 
     static setDeleteTaskFunction(fn) {
         this.#deleteTaskFunction = fn;
@@ -32,6 +81,10 @@ export default class UI {
         this.#getProjectsFunction = fn;
     }
 
+    static setCreateTaskFunction(fn) {
+        this.#createTaskFunction = fn;
+    }
+ 
     static displayTasks(tasks) {
         this.#taskContainer.innerHTML = "";
         tasks.forEach((t) => {

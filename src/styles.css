@@ -6,6 +6,8 @@
     --bg-prime: #fff;
     --bg-second: #a1d5fd;
     --txt-prime: #000000;
+    --btn-prime: rgb(9, 133, 100);
+    --btn-second: rgb(133, 61, 9);
 
     --header-button-bg: #fff;
 
@@ -92,6 +94,93 @@ main {
         width: 100%;
         gap: 1rem;
         margin-top: 1rem;
+    }
+
+    nav {
+        /* Create task button */
+        div:first-child {
+            button {
+                margin-bottom: 1rem;
+                background-color: var(--btn-prime);
+                border-radius: 8px;
+                color: #fff;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+
+            /* Create Task form */
+            dialog {
+                margin: auto;
+                border: 1px solid #ccc;
+                box-shadow: var(--g-box-shadow);
+                padding: var(--g-padding);
+                border-radius: var(--g-border-radius);
+                
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+
+                    div {
+                        display: flex;
+                        align-items: start;
+                        gap: 0.5em;
+
+                        label {
+                            width: 12ch;
+                            font-family: Arial, Helvetica, sans-serif;
+                            font-size: 12px;
+                        }
+
+                        :not(label[for="description-input"]) {
+                            align-self: center;
+                        }
+
+                        input {
+                            flex: 1;
+                            padding: 0.5em;
+                        }
+                    }
+
+                    textarea {
+                        resize: none;
+                        width: 25ch;
+                        height: 7rem;
+                        padding: 0.3em;
+                    }
+
+                    div:last-child {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0;
+                        align-items: center;
+
+                        button {
+                            background-color: var(--btn-prime);
+                            width: 100%;
+                        }
+
+                        button:last-child {
+                            background-color: red;
+                        }
+                    }
+                }
+            }
+        }
+
+        div:last-child  { 
+            button {
+                background-color: #ccc;
+            }
+
+            > span {
+                margin-right: 1rem;   
+                font-size: 12px;
+                text-transform: uppercase;
+                font-family: arial;
+                font-weight: bold;
+            }
+        }
     }
 }
 

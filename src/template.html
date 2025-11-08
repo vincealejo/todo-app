@@ -19,8 +19,41 @@
     </header>
     <main>
         <nav>
-            <button>Regular</button>
-            <button>Important</button>
+            <div>
+                <button id="create-task-form-button">Create Task</button>
+                <dialog class="create-task-form">
+                    <form>
+                        <div>
+                            <label for="title-input">TITLE</label>
+                            <input id="title-input" type="text" name="title">
+                        </div>
+                        <div>
+                            <label for="description-input">DESCRIPTION</label>
+                            <textarea id="description-input" name="description"></textarea>
+                        </div>
+                        <div>
+                            <label for="due-input">DUE</label>
+                            <input type="date" name="due" id="due-input">
+                        </div>
+                        <div>
+                            <label for="priority-input">PRIORITY</label>
+                            <select id="priority-input">
+                                <option selected value="regular">Regular</option>
+                                <option value="important">Important</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="create-task-button">Create</button>
+                            <button class="close-task-form-button">Close</button>
+                        </div>
+                    </form>
+                </dialog>
+            </div>
+            <div>
+                <span>Filter: </span>
+                <button>Regular</button>
+                <button>Important</button>
+            </div>
         </nav>
         <section class="task-container">
             <!-- Tasks -->

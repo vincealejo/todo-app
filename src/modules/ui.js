@@ -52,7 +52,7 @@ export default class UI {
         document.querySelector(".close-task-form-button").addEventListener("click", (e) => {
             e.preventDefault();
             document.querySelector(".create-task-form").close();
-        })
+        });
 
     }
 
@@ -160,7 +160,7 @@ export default class UI {
         showDescButton.innerText = "V";
         
         const descriptionCont = document.createElement("section");
-        descriptionCont.className = "description-containter";
+        descriptionCont.className = "description-containter hidden";
         
         innerHeader1.append(due, buttonCont);
         innerHeader2.append(title);
@@ -179,6 +179,10 @@ export default class UI {
                 this.#editTaskFunction(buttonCont.dataset.id);
             }
             this.displayTasks(this.#getTasksFunction());
+        });
+
+        showDescButton.addEventListener("click", () => {
+            descriptionCont.classList.toggle("hidden");
         })
 
         return container;

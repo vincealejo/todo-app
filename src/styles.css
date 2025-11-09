@@ -16,6 +16,10 @@
     --g-padding: 1rem;
 }
 
+.hidden {
+    display: none;
+}
+
 body {
     display: flex;
     padding: 1rem;
@@ -190,6 +194,7 @@ main {
     width: 300px;
     border-radius: var(--g-border-radius);
     box-shadow: var(--g-box-shadow);
+    position: relative;
     
     header {
 
@@ -228,6 +233,13 @@ main {
     }
 
     .description-containter {
-        display: none;
+        position: absolute;
+        z-index: 1;
+        background-color: var(--bg-prime);
+        width: 100%;
+        padding: var(--child-padding);
+        border-radius: var(--g-border-radius);
+        box-shadow: var(--g-box-shadow);
+        top: 110%;
     }
 }

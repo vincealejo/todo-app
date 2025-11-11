@@ -51,7 +51,7 @@ button {
         border-radius: var(--g-border-radius);
     }
 
-    ul {
+    ul:not(:last-child), .project-wrapper {
         padding: var(--g-padding);
         display: flex;
         flex-direction: column;
@@ -78,8 +78,52 @@ button {
         }
     }
 
-    ul:last-child {
-        height: 100%;
+    .project-wrapper {
+        #create-project-form-button {
+            background-color: var(--btn-prime);
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        ul {
+            height: 100%;
+            list-style-type: none;
+        }
+
+        dialog {
+            margin: auto;
+            border: 1px solid #ccc;
+            box-shadow: var(--g-box-shadow);
+            padding: var(--g-padding);
+            border-radius: var(--g-border-radius);
+
+            input {
+                padding: 0.5em;
+            }
+
+            label {
+                width: 12ch;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+            }
+
+            .create-project-button, .close-project-form-button {
+                background-color: var(--btn-prime);
+                border-radius: var(--g-border-radius);
+                color: #fff;
+                font-weight: bold;
+                letter-spacing: 1px;
+                text-align: center;
+                margin-top: 1rem;
+            }
+
+            .close-project-form-button {
+                background-color: var(--btn-second);
+            }
+
+        }
     }
 
 }

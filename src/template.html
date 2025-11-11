@@ -13,9 +13,26 @@
             <li><button>Tommorow</button></li>
             <li><button>Skipped</button></li>
         </ul>
-        <ul class="project-container">
-           <!-- Projects -->
-        </ul>
+        <div class="project-wrapper">
+            <div>
+                <button id="create-project-form-button">Create Project</button>
+                <dialog class="create-project-form">
+                    <form>
+                        <div>
+                            <label for="project-name">NAME</label>
+                            <input id="project-name" type="text">
+                        </div>
+                        <div>
+                            <button class="create-project-button">Create</button>
+                            <button class="close-project-form-button">Close</button>
+                        </div>
+                    </form>
+                </dialog>
+            </div>
+            <ul class="project-container">
+               <!-- Projects -->
+            </ul>
+        </div>
     </header>
     <main>
         <nav>

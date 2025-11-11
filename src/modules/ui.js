@@ -5,6 +5,8 @@ export default class UI {
     static #projectContainer = document.querySelector(".project-container");
     static #createTaskFormButton = document.querySelector("#create-task-form-button");
     static #createTaskButton = document.querySelector(".create-task-button");
+    static #createProjectFormButton = document.querySelector("#create-project-form-button");
+    static #createProjectButton = document.querySelector(".create-project-button");
     static #getTasksFunction = null;
     static #getProjectsFunction = null;
     static #deleteTaskFunction = null;
@@ -12,20 +14,26 @@ export default class UI {
     static #deleteProjectFunction = null;
     static #editProjectFunction = null;
     static #createTaskFunction = null;
+    static #createProjectFunction = null;
 
     static init() {
         this.displayTasks(this.#getTasksFunction());
         this.displayProjects(this.#getProjectsFunction());
-
+        
         //set tommorow's date on due input
         const tommorowDate = getTommorowDate();
         document.querySelector("#due-input").value = tommorowDate;
 
-        // opens the create task form modal
+        // opens create task form modal
         this.#createTaskFormButton.addEventListener("click" ,() => {
             document.querySelector(".create-task-form").showModal();
         })
         
+        // opens create project form modal
+        this.#createProjectFormButton.addEventListener("click" , () => {
+            document.querySelector(".create-project-form").showModal();
+        });
+
         // creates task, close create task form modal, display tasks
         this.#createTaskButton.addEventListener("click", (e) => {
             e.preventDefault();
@@ -48,12 +56,33 @@ export default class UI {
             this.displayTasks(this.#getTasksFunction());
         });
 
+        // create project, close form modal, display projects
+        this.#createProjectButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            const name = document.querySelector("#project-name");
+
+            if(name === "") return;
+            this.#createProjectFunction(name.value);
+
+            // clears input value
+            name.value = "";
+            
+            this.displayProjects(this.#getProjectsFunction());
+            document.querySelector(".create-project-form").close();
+        })
+
         // close create task form modal
         document.querySelector(".close-task-form-button").addEventListener("click", (e) => {
             e.preventDefault();
             document.querySelector(".create-task-form").close();
         });
-
+        
+        // close create task form modal
+        document.querySelector(".close-project-form-button").addEventListener("click", (e) => {
+            e.preventDefault();
+            document.querySelector(".create-project-form").close();
+        });
+        
     }
 
 
@@ -83,6 +112,10 @@ export default class UI {
 
     static setCreateTaskFunction(fn) {
         this.#createTaskFunction = fn;
+    }
+
+    static setCreateProjectFunction(fn) {
+        this.#createProjectFunction = fn;
     }
  
     static displayTasks(tasks) {

@@ -10,6 +10,10 @@ UI.setCreateTaskFunction(TODO_APP.createTask.bind(TODO_APP));
 UI.setDeleteTaskFunction(TODO_APP.deleteTask);
 UI.setEditTaskFunction(TODO_APP.editTask);
 UI.setCreateProjectFunction(TODO_APP.createProject.bind(TODO_APP));
+UI.setSetActiveProjectFunction(TODO_APP.setActiveProject);
+UI.setGetActiveProjectFunction(TODO_APP.getActiveProject);
+UI.setDeleteProjectFunction(TODO_APP.deleteProject.bind(TODO_APP));
+UI.setEditProjectFunction(TODO_APP.editProject);
 
 UI.init();
 

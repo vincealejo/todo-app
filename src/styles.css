@@ -8,6 +8,7 @@
     --txt-prime: #000000;
     --btn-prime: rgb(9, 133, 100);
     --btn-second: rgb(133, 61, 9);
+    --btn-active: rgb(142, 166, 234);
 
     --header-button-bg: #fff;
 
@@ -87,9 +88,26 @@ button {
             letter-spacing: 1px;
         }
 
-        ul {
+        .project-container {
             height: 100%;
             list-style-type: none;
+            .project {
+                display: flex;
+                justify-content: space-between;
+
+                button {
+                    background-color: inherit;
+                }
+
+                .delete-project-button {
+                    width: fit-content;
+                    color: var(--btn-second);
+                }
+            }
+
+            .active {
+                background-color: var(--btn-active);
+            }
         }
 
         dialog {
@@ -142,6 +160,12 @@ main {
         width: 100%;
         gap: 1rem;
         margin-top: 1rem;
+    }
+    
+    .filter-buttons {
+        .active {
+            background-color: var(--btn-active);
+        }
     }
 
     nav {

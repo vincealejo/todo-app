@@ -15,10 +15,15 @@ export default class UI {
     static #editProjectFunction = null;
     static #createTaskFunction = null;
     static #createProjectFunction = null;
+    static #getActiveProjectFunction = null;
+    static #setActiveProjectFunction = null;
+
+    static #filter = null;
 
     static init() {
-        this.displayTasks(this.#getTasksFunction());
-        this.displayProjects(this.#getProjectsFunction());
+        this.displayTasks();
+        this.displayProjects();
+        this.#higlightActiveProject();
         
         //set tommorow's date on due input
         const tommorowDate = getTommorowDate();
@@ -53,7 +58,7 @@ export default class UI {
             document.querySelector("#due-input").value = "";
             document.querySelector("#priority-input").value = "regular"; 
             
-            this.displayTasks(this.#getTasksFunction());
+            this.displayTasks();
         });
 
         // create project, close form modal, display projects
@@ -67,7 +72,8 @@ export default class UI {
             // clears input value
             name.value = "";
             
-            this.displayProjects(this.#getProjectsFunction());
+            this.displayProjects();
+            this.#higlightActiveProject();
             document.querySelector(".create-project-form").close();
         })
 
@@ -82,6 +88,20 @@ export default class UI {
             e.preventDefault();
             document.querySelector(".create-project-form").close();
         });
+
+        // filter buttons
+        document.querySelector(".filter-buttons").addEventListener("click", (e) => {
+            if(e.target.nodeName !== "BUTTON") return;
+            const targetFilter = e.target.dataset.name;
+            if(targetFilter === this.#filter) {
+                this.#filter = null;
+            } else {
+                this.#filter = targetFilter;
+            }
+            
+            this.displayTasks();
+            this.#higlightActiveFilter();
+        })
         
     }
 
@@ -117,16 +137,30 @@ export default class UI {
     static setCreateProjectFunction(fn) {
         this.#createProjectFunction = fn;
     }
+
+    static setSetActiveProjectFunction(fn) {
+        this.#setActiveProjectFunction = fn;
+    }
+
+    static setGetActiveProjectFunction(fn) {
+        this.#getActiveProjectFunction = fn;
+    }
  
-    static displayTasks(tasks) {
+    static displayTasks() {
+        const tasks = this.#getTasksFunction();
         this.#taskContainer.innerHTML = "";
         tasks.forEach((t) => {
-            const taskEl = this.#createTaskElement(t);
-            this.#taskContainer.append(taskEl);
+            const activeProjectId = this.#getActiveProjectFunction().id;
+            if(this.#filter !== null && t.priority !== this.#filter) return;
+            if(t.projectId === activeProjectId || activeProjectId === "0") {
+                const taskEl = this.#createTaskElement(t);
+                this.#taskContainer.append(taskEl);
+            }
         })
     }
 
-    static displayProjects(projects) {
+    static displayProjects() {
+        const projects = this.#getProjectsFunction();
         this.#projectContainer.innerHTML = "";
         projects.forEach((p) => {
             const projectEl = this.#createProjectElement(p);
@@ -138,18 +172,64 @@ export default class UI {
         const container = document.createElement("li");
         container.className = "project";
 
-        const button = document.createElement("button");
-        button.className = "project-name-button";
-        button.innerText = project.name;
-        button.dataset.id = project.id;
+        const projectElement = document.createElement("button");
+        projectElement.className = "project-name-button";
+        projectElement.innerText = project.name;
+        projectElement.dataset.id = project.id;
 
-        container.append(button);
+        container.append(projectElement);
+             
+        if(project.id !== "0") {
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete-project-button";
+            deleteButton.innerText = "X"; 
+            container.append(deleteButton);
+            deleteButton.addEventListener("click", () => {
+                this.#deleteProjectFunction(projectElement.dataset.id);
+                this.displayProjects();
+                this.#higlightActiveProject();
+                this.displayTasks();
+            })
+        } 
+    
+
+        projectElement.addEventListener("click" , () => {
+            this.#setActiveProjectFunction(projectElement.dataset.id);
+            this.displayProjects();
+            this.#higlightActiveProject();
+            this.displayTasks();
+        });
+       
 
         return container;
     }
 
+    static #higlightActiveProject() {
+        const projects = [...this.#projectContainer.children];
+        const projectId = this.#getActiveProjectFunction().id;
+
+
+        projects.forEach((p) => {
+            if(p.children[0].dataset.id === projectId) {
+                p.classList.add("active");
+            } else {
+                p.classList.remove("active");
+            }
+        })
+    }
+
+    static #higlightActiveFilter() {
+        [...document.querySelector(".filter-buttons").children].forEach((btn) => {
+            if(btn.dataset.name === this.#filter) {
+                btn.classList.toggle("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        })
+    }
+
     static #createTaskElement(task) {
-        const container = document.createElement("arcticle");
+        const container = document.createElement("article");
         container.className = "task";
 
         const header = document.createElement("header");
@@ -206,12 +286,11 @@ export default class UI {
 
         buttonCont.addEventListener("click", (e) => {
             if(e.target.name === "delete") {
-                console.log("ran");
                 this.#deleteTaskFunction(buttonCont.dataset.id);
             } else if(e.target.name === "edit") {
                 this.#editTaskFunction(buttonCont.dataset.id);
             }
-            this.displayTasks(this.#getTasksFunction());
+            this.displayTasks();
         });
 
         showDescButton.addEventListener("click", () => {
